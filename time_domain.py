@@ -5,14 +5,14 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from scipy.optimize import fsolve
 
-mpl.rcParams['text.usetex'] = False  # not really needed
+'''mpl.rcParams['text.usetex'] = False  # not really needed
 mpl.use("pgf")
 mpl.rcParams.update({
     "pgf.texsystem": "pdflatex",
     'font.family': 'serif',
     'text.usetex': True,
     'pgf.rcfonts': False
-})
+})'''
 
 def root_finding_problem(x, *args):
     params = args[0]
@@ -341,8 +341,28 @@ def main():
     phase_plot(sol12[:,0], sol12[:,1], axes[1], 2, 2, 4, 0, 10, 3.5)
     fig_phase2.tight_layout()
     axes[0].set_title(r'(a) $\beta=0.301$ and $v_0 = 0.1$')
-    axes[1].set_title(r'(b) $\beta=0.644$ and $v_0 = 3.5$')
+    axes[1].set_title(r'(b) $\beta=0$ and $v_0 = 3.5$')
     fig_phase2.savefig('Figures/Phase_Plane/portraits2.pgf')
+
+
+    # Generate PP3
+
+    X0 = [0,3,0]
+    fig_phase2, axes = plt.subplots(1,3, figsize=[6.4, 2.4])
+    sol1 = obtain_sol(X0, t, 2, 2, 4, 0.2, 10, 1)
+    sol2 = obtain_sol(X0, t, 2, 2, 4, 0.5, 10, 1)
+    sol3 = obtain_sol(X0, t, 2, 2, 4, 0.8, 10, 1)
+
+    phase_plot(sol1[:,0], sol1[:,1], axes[0], 2, 2, 4, 0.2, 10, 1)
+    phase_plot(sol2[:,0], sol2[:,1], axes[1], 2, 2, 4, 0.5, 10, 1)
+    phase_plot(sol3[:,0], sol3[:,1], axes[2], 2, 2, 4, 0.8, 10., 1)
+    fig_phase2.tight_layout()
+    axes[0].set_title(r'(a) $\beta=0.2$')
+    axes[1].set_title(r'(b) $\beta=0.5$')
+    axes[2].set_title(r'(b) $\beta=0.8$')
+    axes[0].get_shared_x_axes().join(axes[0], axes[1])
+    axes[1].get_shared_x_axes().join(axes[1], axes[2])
+    fig_phase2.savefig('Figures/Phase_Plane/portraits3.pgf')
 
 
     # Show the figures
